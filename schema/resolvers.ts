@@ -25,5 +25,25 @@ export const resolvers = {
 	in here to list all of the users favorite movies. */
 	User: {
 		favoriteMovies: () => [movieList[0]]
+	},
+
+	Mutation: {
+		createUser: (_: any, args: any) => {
+			// This is where you would take the user &
+			// add it to your database, then return the user
+			return args.user;
+		},
+
+		updateUsername: (_: any, args: any) => {
+			// Update username from DB here by finding it by
+			// its ID, then return the user.
+			return args.input;
+		},
+
+		deleteUser: (_: any, args: any) => {
+			// When deleting, we only want to find it by its ID.
+			// Grab ID, find it in the DB and delete it.
+			return; // User
+		}
 	}
 };

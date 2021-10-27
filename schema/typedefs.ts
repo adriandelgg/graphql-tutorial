@@ -10,6 +10,24 @@ export const typeDefs = gql`
 		movie(name: String!): Movie!
 	}
 
+	type Mutation {
+		createUser(user: CreateUserInput!): User!
+		updateUsername(input: UpdateUsernameInput!): User!
+		deleteUser(id: ID!): User
+	}
+
+	input CreateUserInput {
+		name: String!
+		username: String!
+		age: Int!
+		nationality: Nationality = USA
+	}
+
+	input UpdateUsernameInput {
+		id: ID!
+		username: String!
+	}
+
 	type User {
 		id: ID!
 		name: String!
@@ -31,6 +49,7 @@ export const typeDefs = gql`
 		MEXICO
 		BRAZIL
 		PERU
+		USA
 	}
 `;
 
