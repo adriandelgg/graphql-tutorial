@@ -32,3 +32,8 @@ export const userList = [
 		]
 	}
 ];
+
+export const movieList = [
+	{ id: 1, name: 'Pokemon', yearOfPublication: 1995, isInTheaters: false },
+	{ id: 2, name: 'Avengers', yearOfPublication: 2022, isInTheaters: false }
+];

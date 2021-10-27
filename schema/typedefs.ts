@@ -3,6 +3,13 @@ import { gql } from 'apollo-server';
 
 // Where we write our schema
 export const typeDefs = gql`
+	type Query {
+		users: [User!]!
+		user(id: ID!): User
+		movies: [Movie!]!
+		movie(name: String!): Movie!
+	}
+
 	type User {
 		id: ID!
 		name: String!
@@ -10,11 +17,14 @@ export const typeDefs = gql`
 		age: Int!
 		nationality: Nationality!
 		friends: [User]
+		favoriteMovies: [Movie]
 	}
 
-	type Query {
-		users: [User!]!
-		user(id: ID!): User
+	type Movie {
+		id: ID!
+		name: String!
+		yearOfPublication: Int!
+		isInTheaters: Boolean!
 	}
 
 	enum Nationality {
