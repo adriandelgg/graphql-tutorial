@@ -43,6 +43,7 @@ export const resolvers = {
 		deleteUser: (_: any, args: any) => {
 			// When deleting, we only want to find it by its ID.
 			// Grab ID, find it in the DB and delete it.
+			// Return the deleted user
 			return; // User
 		}
 	}
