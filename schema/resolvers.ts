@@ -4,9 +4,13 @@ import { userList, movieList } from '../FakeData';
 
 export const resolvers = {
 	Query: {
-		users() {
+		users(parent: any, args: any, context: any, info: any) {
 			// Here is where you feed it the data from your DB
-			return userList;
+			// console.log(context.req.headers);
+			// Gives information about the GraphQL request, NOT the server request.
+			// console.log(info);
+			if (userList) return { users: userList };
+			return { message: 'Adrian: There was an error!' };
 		},
 
 		// args is an object that contains the arguments of the query
@@ -25,6 +29,17 @@ export const resolvers = {
 	in here to list all of the users favorite movies. */
 	User: {
 		favoriteMovies: () => [movieList[0]]
+	},
+
+	UsersResult: {
+		__resolveType(obj: any) {
+			console.log(obj);
+			// It must return the string with the same name as the type in the Union
+			if (obj.users) return 'UsersSuccessResult';
+			else if (obj.message) return 'UsersErrorResult';
+
+			return null;
+		}
 	},
 
 	Mutation: {
