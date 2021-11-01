@@ -1,5 +1,5 @@
 // gql allows us to write pure GraphQL code and transpile to JS
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-express';
 
 // Where we write our schema
 // Best practice for enums to have all cap letters. It's case sensitive!
@@ -46,14 +46,6 @@ export const typeDefs = gql`
 		isInTheaters: Boolean!
 	}
 
-	enum Nationality {
-		MEXICO
-		BRAZIL
-		PERU
-		USA
-		CANADA
-	}
-
 	type UsersSuccessResult {
 		users: [User!]!
 	}
@@ -63,4 +55,12 @@ export const typeDefs = gql`
 	}
 
 	union UsersResult = UsersSuccessResult | UsersErrorResult
+
+	enum Nationality {
+		MEXICO
+		BRAZIL
+		PERU
+		USA
+		CANADA
+	}
 `;
