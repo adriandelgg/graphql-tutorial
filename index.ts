@@ -4,7 +4,7 @@ import { resolvers } from './schema/resolvers';
 
 // typeDefs are all the types & queries I define in GraphQL
 // resolvers are all the functions that resolve the data
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers, context: () => {} });
 
 server
 	.listen()

@@ -2,6 +2,7 @@
 import { gql } from 'apollo-server';
 
 // Where we write our schema
+// Best practice for enums to have all cap letters. It's case sensitive!
 export const typeDefs = gql`
 	type Query {
 		users: [User!]!
@@ -50,7 +51,6 @@ export const typeDefs = gql`
 		BRAZIL
 		PERU
 		USA
+		CANADA
 	}
 `;
-
-// Best practice for enums to have cap letters. It's case sensitive!
