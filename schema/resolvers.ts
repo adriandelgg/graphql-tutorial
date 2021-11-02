@@ -1,16 +1,21 @@
 // Contains all the functions that exist in our API
 // to call to our DB to decide what we want to return
 import { userList, movieList } from '../FakeData';
+import { User, validateUser } from '../models/user';
 
 export const resolvers = {
 	Query: {
-		users(parent: any, args: any, context: any, info: any) {
+		async users(parent: any, args: any, context: any, info: any) {
 			// Here is where you feed it the data from your DB
 			// console.log(context.req.headers);
 			// Gives information about the GraphQL request, NOT the server request.
 			// console.log(info);
-			if (userList) return { users: userList };
-			return { message: 'Adrian: There was an error!' };
+
+			const users = await User.find();
+			console.log(users);
+			if (users) return { users };
+			// if (userList) return { users: userList };
+			// return { message: 'Adrian: There was an error!' };
 		},
 
 		// args is an object that contains the arguments of the query
@@ -43,10 +48,20 @@ export const resolvers = {
 	},
 
 	Mutation: {
-		createUser: (_: any, args: any) => {
+		createUser: async (_: any, { user }: any, { res, req }: any) => {
+			// if (error) return 'Invalid input';
 			// This is where you would take the user &
 			// add it to your database, then return the user
-			return args.user;
+
+			try {
+				user = new User({ ...user, age: 'a' });
+				user = await user.save();
+				console.log(user);
+				return user;
+			} catch (e) {
+				console.log(e.message);
+				return e;
+			}
 		},
 
 		updateUsername: (_: any, args: any) => {
