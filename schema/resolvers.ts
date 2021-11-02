@@ -2,6 +2,7 @@
 // to call to our DB to decide what we want to return
 import { userList, movieList } from '../FakeData';
 import { User, validateUser } from '../models/user';
+import { ApolloError, UserInputError } from 'apollo-server-errors';
 
 export const resolvers = {
 	Query: {
@@ -48,33 +49,35 @@ export const resolvers = {
 	},
 
 	Mutation: {
-		createUser: async (_: any, { user }: any, { res, req }: any) => {
+		createUser: async (_: any, { user }: any) => {
 			// if (error) return 'Invalid input';
 			// This is where you would take the user &
 			// add it to your database, then return the user
+			const userExists = await User.findOne({ username: user.username });
+			if (userExists) throw new UserInputError('User already exists!');
 
 			try {
-				user = new User({ ...user, age: 'a' });
-				user = await user.save();
-				console.log(user);
-				return user;
-			} catch (e) {
-				console.log(e.message);
-				return e;
+				user = new User(user);
+				return await user.save();
+			} catch (e: any) {
+				throw new ApolloError(e.message);
 			}
 		},
 
-		updateUsername: (_: any, args: any) => {
+		updateUsername: async (_: any, { input }: any) =>
 			// Update username from DB here by finding it by
 			// its ID, then return the user.
-			return args.input;
-		},
+			await User.findByIdAndUpdate(
+				input.id,
+				{ username: input.username },
+				{ returnDocument: 'after' }
+			),
 
-		deleteUser: (_: any, args: any) => {
+		deleteUser: async (_: any, { id }: any) =>
 			// When deleting, we only want to find it by its ID.
 			// Grab ID, find it in the DB and delete it.
 			// Return the deleted user
-			return; // User
-		}
+			// console.log(args)
+			await User.findByIdAndDelete(id)
 	}
 };
