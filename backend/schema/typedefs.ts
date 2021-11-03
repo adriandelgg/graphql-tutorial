@@ -5,7 +5,7 @@ import { gql } from 'apollo-server-express';
 // Best practice for enums to have all cap letters. It's case sensitive!
 export const typeDefs = gql`
 	type Query {
-		users: UsersResult
+		users: [User!]!
 		user(id: ID!): User
 		movies: [Movie!]!
 		movie(name: String!): Movie!
@@ -15,6 +15,8 @@ export const typeDefs = gql`
 		createUser(user: CreateUserInput!): User!
 		updateUsername(input: UpdateUsernameInput!): User!
 		deleteUser(id: ID!): User
+		createMovie(movie: CreateMovieInput!): Movie!
+		updateMovie(input: UpdateMovieInput!): Movie!
 	}
 
 	input CreateUserInput {
@@ -27,6 +29,19 @@ export const typeDefs = gql`
 	input UpdateUsernameInput {
 		id: ID!
 		username: String!
+	}
+
+	input CreateMovieInput {
+		name: String!
+		yearOfPublication: Int!
+		isInTheaters: Boolean!
+	}
+
+	input UpdateMovieInput {
+		id: ID!
+		name: String
+		yearOfPublication: Int
+		isInTheaters: Boolean
 	}
 
 	type User {
@@ -45,16 +60,6 @@ export const typeDefs = gql`
 		yearOfPublication: Int!
 		isInTheaters: Boolean!
 	}
-
-	type UsersSuccessResult {
-		users: [User!]!
-	}
-
-	type UsersErrorResult {
-		message: String!
-	}
-
-	union UsersResult = UsersSuccessResult | UsersErrorResult
 
 	enum Nationality {
 		MEXICO

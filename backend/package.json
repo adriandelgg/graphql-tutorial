@@ -4,7 +4,9 @@
 	"main": "index.js",
 	"license": "MIT",
 	"scripts": {
-		"start": "nodemon index.ts"
+		"start": "node ./build/index.js",
+		"dev": "nodemon index.ts",
+		"build": "tsc -p ."
 	},
 	"dependencies": {
 		"apollo-server-express": "^3.4.0",
